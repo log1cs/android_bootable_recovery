@@ -239,7 +239,7 @@ static int Run_Update_Binary(const char *path, int* wipe_cache, zip_type ztype) 
 }
 
 int TWinstall_zip(const char* path, int* wipe_cache, bool check_for_digest) {
-	int ret_val, zip_verify = 1, unmount_system = 1, reflashtwrp = 0;
+	int ret_val, zip_verify = 1, unmount_system = 1, reflashtwrp = 0, skip_compatibility_check = 1;
 
 	gui_msg(Msg("installing_zip=Installing zip file '{1}'")(path));
 	if (strlen(path) < 9 || strncmp(path, "/sideload", 9) != 0) {
@@ -256,6 +256,8 @@ int TWinstall_zip(const char* path, int* wipe_cache, bool check_for_digest) {
 	}
 
 	DataManager::GetValue(TW_UNMOUNT_SYSTEM, unmount_system);
+
+	DataManager::GetValue(TW_SKIP_COMPATIBILITY, skip_compatibility_check);
 
 #ifndef TW_OEM_BUILD
 	DataManager::GetValue(TW_SIGNED_ZIP_VERIFY_VAR, zip_verify);
@@ -313,7 +315,7 @@ int TWinstall_zip(const char* path, int* wipe_cache, bool check_for_digest) {
 	if (FindEntry(Zip, update_binary_name, &update_binary_entry) == 0) {
 		LOGINFO("Update binary zip\n");
 		// Additionally verify the compatibility of the package.
-		if (!verify_package_compatibility(Zip)) {
+		if (!skip_compatibility_check && !verify_package_compatibility(Zip)) {
 			gui_err("zip_compatible_err=Zip Treble compatibility error!");
 			ret_val = INSTALL_CORRUPT;
 		} else {

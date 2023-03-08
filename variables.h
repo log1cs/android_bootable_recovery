@@ -128,6 +128,7 @@
 
 #define TW_SHOW_DUMLOCK             "tw_show_dumlock"
 #define TW_HAS_INJECTTWRP           "tw_has_injecttwrp"
+#define TW_SKIP_COMPATIBILITY       "tw_skip_compatibility"
 #define TW_INJECT_AFTER_ZIP         "tw_inject_after_zip"
 #define TW_HAS_DATADATA             "tw_has_datadata"
 #define TW_FLASH_ZIP_IN_PLACE       "tw_flash_zip_in_place"
