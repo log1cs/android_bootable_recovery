@@ -321,7 +321,9 @@ static void redirect_stdio(const char* filename) {
       fflush(log_fp);
     }
 
-    PLOG(ERROR) << "getline failed";
+    // I wonder what filename is.
+    PLOG(ERROR) << "getline failed: " << filename;
+    PLOG(ERROR) << "file: " << __FILE__ << ", at line: " <<  __LINE__;
 
     fclose(pipe_fp);
     free(line);
